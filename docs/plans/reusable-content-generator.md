@@ -13,9 +13,9 @@ The immediate trigger is a request for two YouTube videos,
 ~300-line script for two rows. The point of this work is that the next
 request costs a JSON file instead.
 
+The source is a mining industry association (confirmed by the requester).
 Their titles, durations, orientation and target categories are still
-outstanding from the requester, and this environment cannot reach YouTube to
-derive them. **Do not guess the batch label or `id_prefix` from the video
+outstanding, and this environment cannot reach YouTube to derive them. **Do not guess the batch label or `id_prefix` from the video
 URLs** — `id_prefix` becomes the permanent `content_id` and the upsert key
 for every row, so a wrong guess orphans rows rather than renaming them.
 Confirm it with the requester before the batch file is created.
