@@ -8,10 +8,17 @@ total, and the seed generators are ~90% the same code: identical `sql()`
 quoting, near-identical row validation, and the same `do $$ … end $$`
 upsert-plus-assertions SQL skeleton.
 
-The immediate trigger is a request for two YouTube videos (Job Talks OYAP,
-`hDxgwhLXS6A` and `BeD8CFlb0MA`). Under today's process that means a ninth
+The immediate trigger is a request for two YouTube videos,
+`hDxgwhLXS6A` and `BeD8CFlb0MA`. Under today's process that means a ninth
 ~300-line script for two rows. The point of this work is that the next
 request costs a JSON file instead.
+
+Their titles, durations, orientation and target categories are still
+outstanding from the requester, and this environment cannot reach YouTube to
+derive them. **Do not guess the batch label or `id_prefix` from the video
+URLs** — `id_prefix` becomes the permanent `content_id` and the upsert key
+for every row, so a wrong guess orphans rows rather than renaming them.
+Confirm it with the requester before the batch file is created.
 
 `docs/content-authoring.md:83` already anticipates this — it refers to
 "`scripts/generate-long-term-care-migration.py` and any future
@@ -190,14 +197,14 @@ source of truth for a batch and one file is what a reviewer reads:
 ```json
 {
   "meta": {
-    "label": "job-talks-oyap",
-    "id_prefix": "oyap",
+    "label": "<confirmed-batch-label>",
+    "id_prefix": "<confirmed-prefix>",
     "expected_count": 2,
     "provider": "youtube",
     "source_url": "https://www.youtube.com/@…",
-    "sql_comment": "Seed Job Talks OYAP videos."
+    "sql_comment": "Seed <batch> videos."
   },
-  "rows": [ { "sequence": 1, "content_id": "oyap-001", … } ]
+  "rows": [ { "sequence": 1, "content_id": "<prefix>-001", … } ]
 }
 ```
 
