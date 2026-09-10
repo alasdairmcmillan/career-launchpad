@@ -257,29 +257,38 @@ the golden-file harness meaningful.
 
 ### How `--apply` works
 
-Same order of operations as the `do $$` block it replaces, over PostgREST
-with `urllib.request` — no new dependency:
+**Amended during implementation.** The original design wrote over PostgREST
+with `urllib.request`. It now runs the generated SQL through `psql` against
+`DATABASE_URL`. Supabase exposes a direct Postgres connection string, so one
+code path serves both a local Postgres and the deployed project — which means
+local testing exercises exactly the code that runs in production, rather than
+a second implementation of it. Python stays stdlib-only; `psql` is a binary
+dependency, not a package.
 
-1. `load_env()` for `SUPABASE_URL` + `SUPABASE_SERVICE_ROLE_KEY`. Fail fast
-   with a clear message if absent; never fall back to the anon key for a
-   write.
+The trade this buys: **the apply is atomic.** Content rows and category links
+commit together or not at all, which removes the largest item from the risk
+register below.
+
+1. `load_env()` for `DATABASE_URL`. Fail fast with a clear message if absent.
 2. Validate the batch fully (identical to `--check`). Nothing touches the
-   network until validation passes.
-3. `GET /categories?slug=in.(…)` to resolve every referenced slug to an id.
-   Any missing slug aborts before a single write.
-4. `GET /content?id=in.(…)` for the batch's ids and write a rollback snapshot
-   to `scripts/data/rollbacks/<label>-<utc>.json` — prior state for rows that
+   database until validation passes.
+3. Read current state for the batch's ids and write a rollback snapshot to
+   `scripts/data/rollbacks/<label>-<utc>.json` — prior state for rows that
    exist, recorded as absent for rows that don't. This mirrors what the
    preflight scripts already do, and it matters more here because there is no
    reviewed SQL file in the loop.
-5. `POST /content` with `Prefer: resolution=merge-duplicates` — the upsert.
-6. `POST /content_categories` with `Prefer: resolution=ignore-duplicates`.
-7. Verify: re-read row count and link count, assert they match the batch's
-   expectations, and print the same audit summary `print_audit` gives today.
-8. `--revalidate` (opt-in) POSTs `/api/revalidate-launchpad-content` with
+4. Run the rendered `do $$ … $$` block under `--single-transaction`. Category
+   resolution and both row-count assertions are already inside it, so a
+   missing slug or a miscount rolls the whole thing back.
+5. Verify independently: re-read row count, link count and
+   `missing_reflection`, and assert they match the batch's expectations.
+6. `--revalidate` (opt-in) POSTs `/api/revalidate-launchpad-content` with
    `LAUNCHPAD_REVALIDATE_SECRET` so the change is visible immediately rather
-   than up to 300s later. Opt-in, not automatic, so a scratch-DB run never
-   pokes a deployed environment.
+   than up to 300s later. Opt-in, not automatic, so a local run never pokes a
+   deployed environment.
+
+Applying to a non-local database prompts for confirmation; `--yes` skips it
+for CI. Local applies are frictionless.
 
 ### Module import gotcha
 
@@ -393,9 +402,10 @@ Success criteria, all mechanical:
 | Risk | Mitigation |
 |---|---|
 | Refactor silently changes generated SQL | 12 byte-identical golden files; any drift fails immediately |
-| **`--apply` is not atomic.** PostgREST has no multi-statement transaction, so content and links are two requests | Both steps are idempotent and the verify step runs after; a failure between them is fixed by re-running. For anything you want in one transaction, use `--sql` and apply it by hand. Rejected `psycopg` because it breaks the stdlib-only, zero-install property |
-| A write to prod with no reviewed SQL in the loop | Rollback snapshot written before the first write; validation and category resolution happen before any request; `--apply` requires an explicit flag and a service-role key it will not infer |
-| Service-role key handling | Never falls back to the anon key for writes; read from `.env.local` or process env only; `.gitignore` already covers `.env*.local`; document in `.env.example` without a value |
+| ~~`--apply` is not atomic~~ — **resolved.** Moving to `psql` put the whole apply in one transaction | Content rows and category links commit together or not at all. `psycopg` was still rejected: shelling out to `psql` keeps Python stdlib-only |
+| A write to prod with no reviewed SQL in the loop | Rollback snapshot written before the first write; validation happens before any connection; category resolution and both count assertions run inside the transaction; a non-local target prompts for confirmation |
+| Connection-string handling | Read from `.env.local` or process env only; `.gitignore` already covers `.env*.local`; passwords redacted whenever the target is echoed; documented in `.env.example` without a value |
+| Generated SQL differs by platform | `source_comment_path()` forces forward slashes in the provenance comment. Without it, every file generated on Windows differs from its committed counterpart and the golden-file harness is unusable there |
 | Config schema grows to match the code it replaced | Column set and category cardinality are *derived*; only 6 meta keys are configurable; bespoke batches keep the escape hatch of a bespoke script |
 | Content no longer reconstructible from migrations alone | Accepted and documented: rebuild is schema migrations plus a re-apply per batch, which the self-describing batch files make possible |
 | A stale rollback snapshot is mistaken for a real one | Snapshots are timestamped per run rather than overwritten, unlike the preflight convention. Noted for phase 2: `copy-updates/skills-canada-life-skills-copy-rollback.json` has `previous_takeaway` equal to the applied `new_takeaway`, meaning that preflight was re-run after apply |
@@ -413,10 +423,50 @@ Settled on review — no longer open:
 6. **Content stops shipping as a migration** — `--apply` is the normal path;
    `supabase/migrations/` goes back to being schema-only.
 
+7. **`--apply` reaches Postgres through `psql`, not PostgREST.** Decided at
+   implementation time in preference to standing up a second Supabase project
+   purely for local testing. One code path for local and hosted, a real
+   transaction, and Python stays stdlib-only.
+
 Decided inside Step 5, flagged here because they are trade-offs rather than
-details: `--apply` accepts non-atomicity in exchange for staying
-dependency-free; it writes a timestamped rollback snapshot before its first
-write; and revalidation is opt-in rather than automatic.
+details: `--apply` writes a timestamped rollback snapshot before its first
+write; revalidation is opt-in rather than automatic; and a non-local target
+requires confirmation.
+
+### Deviations found during implementation
+
+- **Byte-identity has exactly one exception.** The provenance comment names
+  the script that wrote the file, and a new generator will not claim to be the
+  retired one. The golden-file test asserts that line 3 is the *only*
+  difference. Every other byte of `print_nerd_videos.sql` reproduces exactly.
+- **Windows path separators broke the harness** before it started. `str(Path(...))`
+  yields backslashes, so all 12 golden files differed on line 2 or 3 on a
+  Windows checkout. Fixed centrally; the baseline itself had not moved.
+- **Two superseded generators were removed**, not just bypassed:
+  `generate-print-nerd-migration.py` and `generate-long-term-care-migration.py`.
+  Converting their data files to `{meta, rows}` breaks them, and leaving a
+  script that crashes on its own input is worse than deleting it.
+- **`scripts/bootstrap-local-db.py` was added** to build a local Postgres
+  matching the deployed schema. This replaces "Local Supabase tooling" in the
+  out-of-scope list below.
+- **The deployed database cannot be rebuilt from its own migrations.** Found
+  while building the local one, and worse than this plan assumed. The
+  historical seeds create content rows and categories with
+  `gen_random_uuid()`; three later migrations then hardcode the ids the
+  deployed database happened to generate
+  (`reflection_articles` — 7 ids, `reflection_non_skills_videos` — 68 ids,
+  `rename_skills_canada_to_skilled_trades` — 1 category id). Those ids exist
+  nowhere else, so a rebuild skips them. Separately,
+  `003_seed_content.sql` inserts a self-referencing FK child before its
+  parent and can only apply with FK checks deferred to commit.
+  Both are pre-existing defects, unrelated to this work — and both are
+  arguments *for* the deterministic `content_id` scheme the batch files use.
+  Worth a separate ticket; not fixed here.
+- **Criterion 5 is only partly verifiable locally.** The app reads through
+  PostgREST (`src/lib/supabase/server.ts`), so it cannot render from a local
+  Postgres. Row counts, link counts, `missing_reflection` and idempotency are
+  all verified; "renders in the app" needs a Supabase project. No TypeScript
+  changed in this work, so nothing in the render path was touched.
 
 ## Files referenced
 
@@ -440,9 +490,11 @@ write; and revalidation is opt-in rather than automatic.
   `src/lib/supabase/server.ts:11-16` and render only a shell. Worth fixing —
   point Preview at a scratch project, not prod — but it is a Vercel
   configuration change, not part of this work.
-- Local Supabase tooling. There is no `supabase/config.toml`, so
-  `supabase start` is not initialised. A scratch cloud project is enough for
-  this work.
+- ~~Local Supabase tooling.~~ **Superseded.** Rather than a scratch cloud
+  project, `scripts/bootstrap-local-db.py` builds a local Postgres from the
+  committed migrations. The only Supabase-specific SQL in them is
+  `gen_random_uuid()` (core since Postgres 13) and grants `to anon`, so stock
+  Postgres is enough — no Docker, no `supabase start`, no `config.toml`.
 - Article content. This generator seeds videos; articles need
   `article_embed_url`/`reading_time_minutes` and no batch has needed them
   since the historical Indeed seeds.
