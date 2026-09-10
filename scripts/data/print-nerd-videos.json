@@ -1,104 +1,132 @@
-[
-  {
-    "sequence": 1,
-    "content_id": "print-nerd-001",
-    "slug": "swatch-books-choosing-paper",
-    "title": "Swatch Books: How Printers Pick the Right Paper",
-    "description": "Sheila visits the resource centre at Spicer Canada, where Matthew shows how swatch books let designers and printers feel paper textures and weights before committing to a job.",
-    "why_it_matters": "Paper choice changes how a finished print looks and feels, so print suppliers keep whole libraries of samples. It is a reminder that creative industries run on specialist roles most students never hear about.",
-    "planning_connection": "Roles like paper rep, print supplier, and production designer sit between art and manufacturing. Seeing how they work shows you where a love of design can meet a stable, hands-on career path.",
-    "takeaway": "In print, paper is not just what you print on. It is part of the whole design experience, and choosing it well is a skilled job.",
-    "reflection": "A lot of creative work depends on people who pair an eye for design with technical know-how. As you explore options after high school, which hands-on craft or trade would you actually enjoy getting good at, and what is one way to try it?",
-    "categories": ["emerging-careers", "on-the-job"],
-    "youtube_id": "gSRTIpqDKow",
-    "url": "https://www.youtube.com/watch?v=gSRTIpqDKow",
-    "orientation": "vertical",
-    "duration_seconds": 61,
-    "thumbnail_url": "https://img.youtube.com/vi/gSRTIpqDKow/maxresdefault.jpg"
+{
+  "meta": {
+    "label": "print-nerd",
+    "id_prefix": "print-nerd",
+    "expected_count": 6,
+    "provider": "youtube",
+    "source_url": "https://www.youtube.com/@CanadianPrintScholarships/shorts",
+    "sql_comment": "Seed \"Print Nerd\" YouTube shorts (Canadian Print Scholarships)."
   },
-  {
-    "sequence": 2,
-    "content_id": "print-nerd-002",
-    "slug": "packaging-shelf-appeal",
-    "title": "Packaging: Why Some Boxes Grab Your Eye First",
-    "description": "Sheila breaks down how colour, texture, shape, and special print finishes are engineered into packaging so a product stands out on a crowded shelf before you ever see what is inside.",
-    "why_it_matters": "Packaging design blends art, psychology, and print technology to win attention in a split second. It is a fast-moving field where creative and technical skills both pay off.",
-    "planning_connection": "If you like the idea of work that mixes design with marketing and manufacturing, packaging is a real career lane. Noticing why a box works is the first step toward learning to make one.",
-    "takeaway": "Packaging is built to be noticed. Colour, texture, and finish do real work, and someone with design and print skills made every choice on purpose.",
-    "reflection": "Every product on a shelf is competing for one second of your attention. As you think about life after high school, would you rather be the person solving that kind of creative problem, or the one building the technology behind it?",
-    "categories": ["emerging-careers", "problems-to-solve"],
-    "youtube_id": "h0KYnLtzM40",
-    "url": "https://www.youtube.com/watch?v=h0KYnLtzM40",
-    "orientation": "vertical",
-    "duration_seconds": 58,
-    "thumbnail_url": "https://img.youtube.com/vi/h0KYnLtzM40/maxresdefault.jpg"
-  },
-  {
-    "sequence": 3,
-    "content_id": "print-nerd-003",
-    "slug": "photo-book-production",
-    "title": "Photo Books: From Your Screen to 1,000 Books an Hour",
-    "description": "Sheila follows a photo book from an online order to the production floor, where high-speed printers, robotic stackers, and binding machines turn digital pages into a finished, boxed book.",
-    "why_it_matters": "The photo book you design online is finished by industrial printing, automation, and skilled operators. Modern print is a high-tech manufacturing world, not a dusty old trade.",
-    "planning_connection": "Press operators, bindery technicians, and automation specialists keep these lines running. If you like machines, robotics, or precise hands-on work, print manufacturing is a path worth a look.",
-    "takeaway": "One case-bound book by hand takes about an hour. The same hour on an automated line can produce a thousand, and people run every step of that machinery.",
-    "reflection": "Automation handles the repetitive work while people set up, monitor, and fix the machines. As you weigh your next step, does running and improving high-tech equipment sound like a path you would want to explore?",
-    "categories": ["emerging-careers", "on-the-job"],
-    "youtube_id": "INpr9rgVttM",
-    "url": "https://www.youtube.com/watch?v=INpr9rgVttM",
-    "orientation": "vertical",
-    "duration_seconds": 73,
-    "thumbnail_url": "https://img.youtube.com/vi/INpr9rgVttM/maxresdefault.jpg"
-  },
-  {
-    "sequence": 4,
-    "content_id": "print-nerd-004",
-    "slug": "stickers-and-large-format-signs",
-    "title": "Stickers to Billboards: One Workflow, Every Size",
-    "description": "Sheila walks the same design, print, laminate, and finish workflow that produces everything from small stickers to large-format signage, with quality checks before anything leaves the shop.",
-    "why_it_matters": "Large-format print runs on shared steps and serious quality control, whatever the size. It shows how a single skill set scales from a sticker to a storefront sign.",
-    "planning_connection": "Wide-format operators, finishers, and quality checkers are in demand as signage and branding grow. It is hands-on work with a clear, visible result you can point to.",
-    "takeaway": "A sticker and a giant sign follow the same path: design, print, laminate, finish, and inspect. The size changes, but the craft and the checks do not.",
-    "reflection": "Some people love work where you can see a finished result at the end of the day. As you picture your next step, would a hands-on trade with a visible product suit you better than a screen-only job?",
-    "categories": ["emerging-careers", "on-the-job"],
-    "youtube_id": "PY0fUa_mDdw",
-    "url": "https://www.youtube.com/watch?v=PY0fUa_mDdw",
-    "orientation": "vertical",
-    "duration_seconds": 57,
-    "thumbnail_url": "https://img.youtube.com/vi/PY0fUa_mDdw/maxresdefault.jpg"
-  },
-  {
-    "sequence": 5,
-    "content_id": "print-nerd-005",
-    "slug": "manga-book-printing",
-    "title": "How Manga Books Are Made: Plates to Spray Edges",
-    "description": "Sheila goes inside a book printing company to follow a manga volume through pre-press, plate-making, papermaking, offset printing, folding, binding, and finishing touches like sprayed edges.",
-    "why_it_matters": "Even a printed manga depends on pre-press, plate-making, papermaking, and offset presses working in sequence. The media you love is built by a chain of specialist roles.",
-    "planning_connection": "Pre-press technician, press operator, and bindery worker are real jobs behind every book. If a favourite hobby like manga sparks you, print is one path that turns it into a career.",
-    "takeaway": "A manga volume passes through pre-press, plates, paper, press, and bindery before it reaches you. Each stage is a different skill and a different possible job.",
-    "reflection": "Things you enjoy as a fan are made by people with specific, learnable skills. As you explore options after high school, is there a hobby you would want to follow into the industry that produces it?",
-    "categories": ["emerging-careers", "on-the-job"],
-    "youtube_id": "hESI_YcUaiY",
-    "url": "https://www.youtube.com/watch?v=hESI_YcUaiY",
-    "orientation": "vertical",
-    "duration_seconds": 71,
-    "thumbnail_url": "https://img.youtube.com/vi/hESI_YcUaiY/maxresdefault.jpg"
-  },
-  {
-    "sequence": 6,
-    "content_id": "print-nerd-006",
-    "slug": "in-store-display-graphics",
-    "title": "In-Store Display Graphics: How Store Signage Is Made",
-    "description": "Sheila traces in-store marketing from design file to finished display, through large-format printing on vinyl, foam, and plastic, then trimming, packing, shipping, and installation in the aisle.",
-    "why_it_matters": "The signs and displays guiding you through every store are produced, finished, and installed by a print team. Retail you see every day is quietly powered by this work.",
-    "planning_connection": "Large-format printing, finishing, logistics, and install are all jobs in this pipeline. If you want variety across design, machines, and on-site work, in-store marketing offers several entry points.",
-    "takeaway": "Every display in a store is designed, printed, finished, shipped, and installed. One product moves through several different roles before it reaches the aisle.",
-    "reflection": "A single store display passes through design, print, finishing, and install, each a different kind of job. As you think about your path, which of those stages would you most want to try first?",
-    "categories": ["emerging-careers", "on-the-job"],
-    "youtube_id": "Nm9Ii23HkJE",
-    "url": "https://www.youtube.com/watch?v=Nm9Ii23HkJE",
-    "orientation": "vertical",
-    "duration_seconds": 75,
-    "thumbnail_url": "https://img.youtube.com/vi/Nm9Ii23HkJE/maxresdefault.jpg"
-  }
-]
+  "rows": [
+    {
+      "sequence": 1,
+      "content_id": "print-nerd-001",
+      "slug": "swatch-books-choosing-paper",
+      "title": "Swatch Books: How Printers Pick the Right Paper",
+      "description": "Sheila visits the resource centre at Spicer Canada, where Matthew shows how swatch books let designers and printers feel paper textures and weights before committing to a job.",
+      "why_it_matters": "Paper choice changes how a finished print looks and feels, so print suppliers keep whole libraries of samples. It is a reminder that creative industries run on specialist roles most students never hear about.",
+      "planning_connection": "Roles like paper rep, print supplier, and production designer sit between art and manufacturing. Seeing how they work shows you where a love of design can meet a stable, hands-on career path.",
+      "takeaway": "In print, paper is not just what you print on. It is part of the whole design experience, and choosing it well is a skilled job.",
+      "reflection": "A lot of creative work depends on people who pair an eye for design with technical know-how. As you explore options after high school, which hands-on craft or trade would you actually enjoy getting good at, and what is one way to try it?",
+      "categories": [
+        "emerging-careers",
+        "on-the-job"
+      ],
+      "youtube_id": "gSRTIpqDKow",
+      "url": "https://www.youtube.com/watch?v=gSRTIpqDKow",
+      "orientation": "vertical",
+      "duration_seconds": 61,
+      "thumbnail_url": "https://img.youtube.com/vi/gSRTIpqDKow/maxresdefault.jpg"
+    },
+    {
+      "sequence": 2,
+      "content_id": "print-nerd-002",
+      "slug": "packaging-shelf-appeal",
+      "title": "Packaging: Why Some Boxes Grab Your Eye First",
+      "description": "Sheila breaks down how colour, texture, shape, and special print finishes are engineered into packaging so a product stands out on a crowded shelf before you ever see what is inside.",
+      "why_it_matters": "Packaging design blends art, psychology, and print technology to win attention in a split second. It is a fast-moving field where creative and technical skills both pay off.",
+      "planning_connection": "If you like the idea of work that mixes design with marketing and manufacturing, packaging is a real career lane. Noticing why a box works is the first step toward learning to make one.",
+      "takeaway": "Packaging is built to be noticed. Colour, texture, and finish do real work, and someone with design and print skills made every choice on purpose.",
+      "reflection": "Every product on a shelf is competing for one second of your attention. As you think about life after high school, would you rather be the person solving that kind of creative problem, or the one building the technology behind it?",
+      "categories": [
+        "emerging-careers",
+        "problems-to-solve"
+      ],
+      "youtube_id": "h0KYnLtzM40",
+      "url": "https://www.youtube.com/watch?v=h0KYnLtzM40",
+      "orientation": "vertical",
+      "duration_seconds": 58,
+      "thumbnail_url": "https://img.youtube.com/vi/h0KYnLtzM40/maxresdefault.jpg"
+    },
+    {
+      "sequence": 3,
+      "content_id": "print-nerd-003",
+      "slug": "photo-book-production",
+      "title": "Photo Books: From Your Screen to 1,000 Books an Hour",
+      "description": "Sheila follows a photo book from an online order to the production floor, where high-speed printers, robotic stackers, and binding machines turn digital pages into a finished, boxed book.",
+      "why_it_matters": "The photo book you design online is finished by industrial printing, automation, and skilled operators. Modern print is a high-tech manufacturing world, not a dusty old trade.",
+      "planning_connection": "Press operators, bindery technicians, and automation specialists keep these lines running. If you like machines, robotics, or precise hands-on work, print manufacturing is a path worth a look.",
+      "takeaway": "One case-bound book by hand takes about an hour. The same hour on an automated line can produce a thousand, and people run every step of that machinery.",
+      "reflection": "Automation handles the repetitive work while people set up, monitor, and fix the machines. As you weigh your next step, does running and improving high-tech equipment sound like a path you would want to explore?",
+      "categories": [
+        "emerging-careers",
+        "on-the-job"
+      ],
+      "youtube_id": "INpr9rgVttM",
+      "url": "https://www.youtube.com/watch?v=INpr9rgVttM",
+      "orientation": "vertical",
+      "duration_seconds": 73,
+      "thumbnail_url": "https://img.youtube.com/vi/INpr9rgVttM/maxresdefault.jpg"
+    },
+    {
+      "sequence": 4,
+      "content_id": "print-nerd-004",
+      "slug": "stickers-and-large-format-signs",
+      "title": "Stickers to Billboards: One Workflow, Every Size",
+      "description": "Sheila walks the same design, print, laminate, and finish workflow that produces everything from small stickers to large-format signage, with quality checks before anything leaves the shop.",
+      "why_it_matters": "Large-format print runs on shared steps and serious quality control, whatever the size. It shows how a single skill set scales from a sticker to a storefront sign.",
+      "planning_connection": "Wide-format operators, finishers, and quality checkers are in demand as signage and branding grow. It is hands-on work with a clear, visible result you can point to.",
+      "takeaway": "A sticker and a giant sign follow the same path: design, print, laminate, finish, and inspect. The size changes, but the craft and the checks do not.",
+      "reflection": "Some people love work where you can see a finished result at the end of the day. As you picture your next step, would a hands-on trade with a visible product suit you better than a screen-only job?",
+      "categories": [
+        "emerging-careers",
+        "on-the-job"
+      ],
+      "youtube_id": "PY0fUa_mDdw",
+      "url": "https://www.youtube.com/watch?v=PY0fUa_mDdw",
+      "orientation": "vertical",
+      "duration_seconds": 57,
+      "thumbnail_url": "https://img.youtube.com/vi/PY0fUa_mDdw/maxresdefault.jpg"
+    },
+    {
+      "sequence": 5,
+      "content_id": "print-nerd-005",
+      "slug": "manga-book-printing",
+      "title": "How Manga Books Are Made: Plates to Spray Edges",
+      "description": "Sheila goes inside a book printing company to follow a manga volume through pre-press, plate-making, papermaking, offset printing, folding, binding, and finishing touches like sprayed edges.",
+      "why_it_matters": "Even a printed manga depends on pre-press, plate-making, papermaking, and offset presses working in sequence. The media you love is built by a chain of specialist roles.",
+      "planning_connection": "Pre-press technician, press operator, and bindery worker are real jobs behind every book. If a favourite hobby like manga sparks you, print is one path that turns it into a career.",
+      "takeaway": "A manga volume passes through pre-press, plates, paper, press, and bindery before it reaches you. Each stage is a different skill and a different possible job.",
+      "reflection": "Things you enjoy as a fan are made by people with specific, learnable skills. As you explore options after high school, is there a hobby you would want to follow into the industry that produces it?",
+      "categories": [
+        "emerging-careers",
+        "on-the-job"
+      ],
+      "youtube_id": "hESI_YcUaiY",
+      "url": "https://www.youtube.com/watch?v=hESI_YcUaiY",
+      "orientation": "vertical",
+      "duration_seconds": 71,
+      "thumbnail_url": "https://img.youtube.com/vi/hESI_YcUaiY/maxresdefault.jpg"
+    },
+    {
+      "sequence": 6,
+      "content_id": "print-nerd-006",
+      "slug": "in-store-display-graphics",
+      "title": "In-Store Display Graphics: How Store Signage Is Made",
+      "description": "Sheila traces in-store marketing from design file to finished display, through large-format printing on vinyl, foam, and plastic, then trimming, packing, shipping, and installation in the aisle.",
+      "why_it_matters": "The signs and displays guiding you through every store are produced, finished, and installed by a print team. Retail you see every day is quietly powered by this work.",
+      "planning_connection": "Large-format printing, finishing, logistics, and install are all jobs in this pipeline. If you want variety across design, machines, and on-site work, in-store marketing offers several entry points.",
+      "takeaway": "Every display in a store is designed, printed, finished, shipped, and installed. One product moves through several different roles before it reaches the aisle.",
+      "reflection": "A single store display passes through design, print, finishing, and install, each a different kind of job. As you think about your path, which of those stages would you most want to try first?",
+      "categories": [
+        "emerging-careers",
+        "on-the-job"
+      ],
+      "youtube_id": "Nm9Ii23HkJE",
+      "url": "https://www.youtube.com/watch?v=Nm9Ii23HkJE",
+      "orientation": "vertical",
+      "duration_seconds": 75,
+      "thumbnail_url": "https://img.youtube.com/vi/Nm9Ii23HkJE/maxresdefault.jpg"
+    }
+  ]
+}
