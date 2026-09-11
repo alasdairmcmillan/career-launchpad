@@ -209,21 +209,19 @@ input {
 .learn-more-card {
   position: fixed;
   left: 50%;
-  bottom: 0;
+  top: 50%;
   z-index: 3010;
+  transform: translate(-50%, -50%);
   width: min(840px, calc(100vw - 48px));
-  height: min(72dvh, 720px);
-  min-height: 420px;
-  transform: translateX(-50%);
+  max-height: min(80dvh, 720px);
   display: flex;
   flex-direction: column;
   overflow: hidden;
   background: var(--white);
   color: var(--navy);
   border: 1px solid rgba(217, 223, 234, 0.95);
-  border-bottom: 0;
-  border-radius: 18px 18px 0 0;
-  box-shadow: 0 -24px 70px rgba(8, 8, 26, 0.28);
+  border-radius: 18px;
+  box-shadow: 0 24px 70px rgba(8, 8, 26, 0.28);
   animation: learn-more-card-in 320ms var(--ease-out);
   outline: none;
 }
@@ -309,10 +307,10 @@ input {
 }
 
 .learn-more-body {
-  flex: 1;
+  flex: 1 1 auto;
   min-height: 0;
   overflow-y: auto;
-  padding: 26px 26px 44px;
+  padding: 26px;
 }
 
 .learn-more-top {
@@ -507,6 +505,17 @@ input {
 @keyframes learn-more-card-in {
   from {
     opacity: 0;
+    transform: translate(-50%, calc(-50% + 12px));
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+}
+
+@keyframes learn-more-sheet-in {
+  from {
+    opacity: 0;
     transform: translateX(-50%) translateY(100%);
   }
   to {
@@ -517,12 +526,18 @@ input {
 
 @media (max-width: 860px) {
   .learn-more-card {
+    top: auto;
+    bottom: 0;
+    transform: translateX(-50%);
     width: 100vw;
     height: min(88dvh, calc(100dvh - 24px));
-    min-height: 0;
+    max-height: none;
+    border-bottom: 0;
     border-left: 0;
     border-right: 0;
     border-radius: 16px 16px 0 0;
+    box-shadow: 0 -24px 70px rgba(8, 8, 26, 0.28);
+    animation-name: learn-more-sheet-in;
   }
 
   .learn-more-header {
@@ -944,6 +959,17 @@ input {
   }
 
   @keyframes learn-more-card-in {
+    from {
+      opacity: 0;
+      transform: translate(-50%, -50%);
+    }
+    to {
+      opacity: 1;
+      transform: translate(-50%, -50%);
+    }
+  }
+
+  @keyframes learn-more-sheet-in {
     from {
       opacity: 0;
       transform: translateX(-50%) translateY(0);
