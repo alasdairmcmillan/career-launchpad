@@ -36,13 +36,18 @@ function validEvent(overrides: Record<string, unknown> = {}) {
   };
 }
 
-function analyticsRequest(body: unknown) {
+function analyticsRequest(body: unknown, headers: Record<string, string> = {}) {
   return new Request(URL, {
     method: 'POST',
-    headers: { 'content-type': 'application/json' },
+    headers: { 'content-type': 'application/json', ...headers },
     body: JSON.stringify(body),
   });
 }
+
+const VERCEL_GEO_HEADERS = {
+  'x-vercel-ip-country': 'CA',
+  'x-vercel-ip-country-region': 'ON',
+};
 
 describe('POST /api/analytics', () => {
   afterEach(() => {
@@ -75,6 +80,77 @@ describe('POST /api/analytics', () => {
         utm_campaign: 'launch',
         metadata: { source: 'feed' },
       }),
+    ]);
+  });
+
+  it('stores country and region from Vercel geolocation headers on every event in the batch', async () => {
+    fromMock.mockReturnValue({ insert: insertMock });
+    insertMock.mockResolvedValue({ error: null });
+
+    await POST(
+      analyticsRequest(
+        { events: [validEvent(), validEvent({ eventId: 'clp_evt_second' })] },
+        VERCEL_GEO_HEADERS
+      )
+    );
+
+    expect(insertMock).toHaveBeenCalledWith([
+      expect.objectContaining({ event_id: 'clp_evt_test', geo_country: 'CA', geo_region: 'ON' }),
+      expect.objectContaining({ event_id: 'clp_evt_second', geo_country: 'CA', geo_region: 'ON' }),
+    ]);
+  });
+
+  it('stores null geo when Vercel geolocation headers are absent', async () => {
+    fromMock.mockReturnValue({ insert: insertMock });
+    insertMock.mockResolvedValue({ error: null });
+
+    await POST(analyticsRequest({ events: [validEvent()] }));
+
+    expect(insertMock).toHaveBeenCalledWith([
+      expect.objectContaining({ geo_country: null, geo_region: null }),
+    ]);
+  });
+
+  it('stores null geo when the header values are not ISO codes', async () => {
+    fromMock.mockReturnValue({ insert: insertMock });
+    insertMock.mockResolvedValue({ error: null });
+
+    await POST(
+      analyticsRequest(
+        { events: [validEvent()] },
+        { 'x-vercel-ip-country': 'Canada', 'x-vercel-ip-country-region': 'Ontario' }
+      )
+    );
+
+    expect(insertMock).toHaveBeenCalledWith([
+      expect.objectContaining({ geo_country: null, geo_region: null }),
+    ]);
+  });
+
+  it('drops the region when the country is missing', async () => {
+    fromMock.mockReturnValue({ insert: insertMock });
+    insertMock.mockResolvedValue({ error: null });
+
+    await POST(analyticsRequest({ events: [validEvent()] }, { 'x-vercel-ip-country-region': 'ON' }));
+
+    expect(insertMock).toHaveBeenCalledWith([
+      expect.objectContaining({ geo_country: null, geo_region: null }),
+    ]);
+  });
+
+  it('ignores geo claimed in the event payload', async () => {
+    fromMock.mockReturnValue({ insert: insertMock });
+    insertMock.mockResolvedValue({ error: null });
+
+    const spoofed = validEvent({
+      geoCountry: 'US',
+      geoRegion: 'CA',
+      context: { deviceType: 'desktop', pagePath: '/', geoCountry: 'US', geoRegion: 'CA' },
+    });
+    await POST(analyticsRequest({ events: [spoofed] }, VERCEL_GEO_HEADERS));
+
+    expect(insertMock).toHaveBeenCalledWith([
+      expect.objectContaining({ geo_country: 'CA', geo_region: 'ON' }),
     ]);
   });
 
