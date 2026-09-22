@@ -8,6 +8,13 @@ const VALID_DEVICE_TYPES = new Set<AnalyticsDeviceType>(['desktop', 'tablet', 'm
 const MAX_BATCH_SIZE = 20;
 const MAX_METADATA_BYTES = 4096;
 const SAFE_ID_RE = /^[A-Za-z0-9_.:-]{1,160}$/;
+const COUNTRY_CODE_RE = /^[A-Z]{2}$/;
+const REGION_CODE_RE = /^[A-Z0-9]{1,3}$/;
+
+type RequestGeo = {
+  geo_country: string | null;
+  geo_region: string | null;
+};
 
 type AnalyticsInsertRow = {
   event_id: string;
@@ -26,7 +33,7 @@ type AnalyticsInsertRow = {
   utm_campaign: string | null;
   utm_content: string | null;
   utm_term: string | null;
-};
+} & RequestGeo;
 
 export async function POST(request: Request): Promise<Response> {
   const body = await readJson(request);
@@ -34,9 +41,10 @@ export async function POST(request: Request): Promise<Response> {
     return NextResponse.json({ ok: false, error: 'invalid_batch' }, { status: 400 });
   }
 
+  const geo = requestGeo(request.headers);
   const rows: AnalyticsInsertRow[] = [];
   for (const event of body.events) {
-    const row = toInsertRow(event);
+    const row = toInsertRow(event, geo);
     if (!row) {
       return NextResponse.json({ ok: false, error: 'invalid_event' }, { status: 400 });
     }
@@ -60,7 +68,17 @@ async function readJson(request: Request): Promise<unknown> {
   }
 }
 
-function toInsertRow(event: unknown): AnalyticsInsertRow | null {
+// Coarse location from Vercel's edge geolocation headers. Absent in local dev.
+// Taken from the request, never the payload, and the IP itself is not read.
+function requestGeo(headers: Headers): RequestGeo {
+  const country = headers.get('x-vercel-ip-country')?.trim() ?? '';
+  if (!COUNTRY_CODE_RE.test(country)) return { geo_country: null, geo_region: null };
+
+  const region = headers.get('x-vercel-ip-country-region')?.trim() ?? '';
+  return { geo_country: country, geo_region: REGION_CODE_RE.test(region) ? region : null };
+}
+
+function toInsertRow(event: unknown, geo: RequestGeo): AnalyticsInsertRow | null {
   if (!isPlainObject(event)) return null;
 
   const eventId = safeString(event.eventId, 160);
@@ -101,6 +119,7 @@ function toInsertRow(event: unknown): AnalyticsInsertRow | null {
     utm_campaign: safeText(context.utmCampaign, 200),
     utm_content: safeText(context.utmContent, 200),
     utm_term: safeText(context.utmTerm, 200),
+    ...geo,
   };
 }
 
