@@ -1358,7 +1358,7 @@ function DesktopStage({
     if (activeCategories.length === 1) return categoryLabel(categories, activeCategories[0]);
     return `${activeCategories.length} Paths`;
   })();
-  const defaultPathsCount = categories.length + 1;
+  const defaultPathsCount = categories.length;
   const pathsAriaLabel = pathsCtaText ?? `${defaultPathsCount} Paths`;
 
   return (
@@ -1678,7 +1678,7 @@ function MobileStage({
     if (activeCategories.length === 1) return categoryLabel(categories, activeCategories[0]);
     return `${activeCategories.length} Paths`;
   })();
-  const defaultPathsCount = categories.length + 1;
+  const defaultPathsCount = categories.length;
   const pathsAriaLabel = pathsCtaText ?? `${defaultPathsCount} Paths`;
   return (
     <div
