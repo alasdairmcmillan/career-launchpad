@@ -1,0 +1,63 @@
+{
+  "meta": {
+    "label": "ciphi-public-health",
+    "id_prefix": "ciphi",
+    "expected_count": 3,
+    "provider": "youtube",
+    "source_url": "https://docs.google.com/spreadsheets/d/1UcjlgAvCMh4B00ceyTPmiux7a1jZB9qRGnb6EYvlMbU/edit#gid=1201697823",
+    "sql_comment": "Seed ciphi-public-health videos from the LaunchPad Live Content sheet."
+  },
+  "rows": [
+    {
+      "sequence": 1,
+      "content_id": "ciphi-001",
+      "slug": "could-you-be-a-public-health-inspector",
+      "title": "Could You Be a Public Health Inspector?",
+      "description": "A public health inspector describes a job on the road that keeps changing, and why they'd tell high school students to give it a try.",
+      "takeaway": "Public health inspectors spend much of their day on the road, visiting places like restaurants and childcare settings, usually unannounced. The job is part enforcement and part relationship-building, and inspectors say it's worth it when the operators they work with want to protect the public too.",
+      "reflection": "Inspectors say the job is hard because they arrive unannounced and must be firm. They also say it's rewarding when an operator later thanks them for it. Would you be comfortable doing work that's tough in the moment if you knew the result would be better in the long run?",
+      "categories": [
+        "on-the-job"
+      ],
+      "youtube_id": "MLKrDUzYdEs",
+      "url": "https://www.youtube.com/watch?v=MLKrDUzYdEs",
+      "orientation": "horizontal",
+      "duration_seconds": 113,
+      "thumbnail_url": "https://img.youtube.com/vi/MLKrDUzYdEs/maxresdefault.jpg"
+    },
+    {
+      "sequence": 2,
+      "content_id": "ciphi-002",
+      "slug": "working-to-keep-your-own-community-healthy",
+      "title": "Working to Keep Your Own Community Healthy",
+      "description": "Peter Hill tests water, inspects homes and checks schools in the First Nation communities where his family is from.",
+      "takeaway": "Environmental public health officers protect a community's health. They test water, inspect wells, homes, septic systems, schools and daycares, and teach people along the way. Peter Hill says that working in the community where his family is from helps him build trust, and that as First Nation communities grow, more trained officers are needed.",
+      "reflection": "Peter Hill says the best part of his job is seeing that he's helping someone else, and that trust built in his community makes the work easier. Think about a job you might want. Who would you be helping, and how might you earn their trust?",
+      "categories": [
+        "on-the-job"
+      ],
+      "youtube_id": "QCUX0ktqPi4",
+      "url": "https://www.youtube.com/watch?v=QCUX0ktqPi4",
+      "orientation": "horizontal",
+      "duration_seconds": 179,
+      "thumbnail_url": "https://img.youtube.com/vi/QCUX0ktqPi4/maxresdefault.jpg"
+    },
+    {
+      "sequence": 3,
+      "content_id": "ciphi-003",
+      "slug": "where-does-a-public-health-inspector-work",
+      "title": "Where Does a Public Health Inspector Work?",
+      "description": "From restaurant kitchens to skating rinks, a quick look at the places inspectors check to keep people safe.",
+      "takeaway": "Public health inspectors don't only work in restaurants. They also check places like bakeries, pools, public beaches, nail salons and skating rinks, so the job takes them to many different settings.",
+      "reflection": "An inspector's workplace could be a kitchen one day and a swimming pool the next. Which of these places would you most want to spend your workday in, and what do you think an inspector would look for there?",
+      "categories": [
+        "on-the-job"
+      ],
+      "youtube_id": "O2l0m32u_bU",
+      "url": "https://www.youtube.com/watch?v=O2l0m32u_bU",
+      "orientation": "vertical",
+      "duration_seconds": 23,
+      "thumbnail_url": "https://img.youtube.com/vi/O2l0m32u_bU/maxresdefault.jpg"
+    }
+  ]
+}

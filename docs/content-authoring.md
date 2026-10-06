@@ -147,6 +147,63 @@ Validation is strict: an empty string is a failure, not a value.
 
 ---
 
+## From the content sheet
+
+The "LaunchPad Live Content" Google Sheet lists every live item, one row each,
+and is where new content is drafted. `scripts/sync-content-sheet.py` moves
+content between it and the batch files. It reads columns by header name, so
+adding or reordering columns is fine.
+
+```bash
+# New rows -> a batch file. Creates the batch, or extends it if it exists.
+python3 scripts/sync-content-sheet.py import --rows 278-280 \
+  --batch scripts/data/<label>-videos.json --label <label> --id-prefix <prefix>
+
+# Then ship it as usual.
+python3 scripts/generate-content-migration.py \
+  --batch scripts/data/<label>-videos.json --apply --revalidate
+
+# Live content -> empty sheet cells (Reflection, LaunchPad URL, Published At).
+python3 scripts/sync-content-sheet.py fill            # dry run
+python3 scripts/sync-content-sheet.py fill --write
+```
+
+`import` fills in what the sheet does not carry:
+
+| Field | From |
+|---|---|
+| `slug` | the Title, lowercased and hyphenated |
+| `categories` | the Path names (`Problems` is `problems-to-solve`) |
+| `orientation` | YouTube: `/shorts/<id>` serves Shorts and redirects other videos. An `Orientation` column, if added, wins |
+| `duration_seconds` | the YouTube watch page |
+| `thumbnail_url` | `maxresdefault.jpg`, or `hqdefault.jpg` when there is none |
+
+It runs the generator's full validation, so a reflection that breaks the
+editorial rule is caught here. Fix it in the sheet and re-run: rows already in
+the batch are matched by YouTube id and keep their `content_id` and slug. If
+any row cannot be read, nothing is written, so later rows never shift into its
+sequence number. The `--id-prefix` rule above still applies: confirm it before
+the first import.
+
+`fill` never overwrites a non-empty cell. A Reflection that differs from the
+live one is reported, not changed.
+
+Setup, in `.env.local`:
+
+- `LAUNCHPAD_SHEETS_CREDENTIALS`: path to the service account key JSON
+  (project `career-videos-496316`). The key is gitignored; never commit it.
+- `LAUNCHPAD_CONTENT_SHEET_ID`: the id from the sheet URL.
+- `SUPABASE_URL` and `SUPABASE_ANON_KEY`: live content is read the same way
+  the app reads it.
+- `LAUNCHPAD_SITE_URL` (optional): base for the LaunchPad URLs `fill` writes.
+  Defaults to `https://launchpad.myblueprint.ca`.
+
+The sheet must be shared with the service account's `client_email`: Viewer
+for `import`, Editor for `fill --write`. The Google Sheets API must be enabled
+on the key's GCP project.
+
+---
+
 ## Reflections
 
 Every piece of Learn More content ships with a **Reflection** prompt. It

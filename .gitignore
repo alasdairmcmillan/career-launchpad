@@ -20,3 +20,7 @@ __pycache__/
 # hand-written *_rollback.sql files in that directory stay tracked.
 # Force-add a snapshot deliberately if you need to preserve one.
 scripts/data/rollbacks/*.json
+
+# Google service account keys (downloaded as <project>-<key id>.json).
+# Point LAUNCHPAD_SHEETS_CREDENTIALS at the file; never commit it.
+career-videos-*.json
