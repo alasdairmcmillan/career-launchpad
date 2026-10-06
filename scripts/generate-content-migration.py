@@ -294,6 +294,11 @@ def used_category_slugs(rows: list[dict[str, Any]]) -> list[str]:
 # SQL rendering
 # --------------------------------------------------------------------------
 
+# Inserted but never overwritten on conflict. `published_at` orders the feed,
+# so a re-run must not bump already-live rows back to the top.
+INSERT_ONLY_COLUMNS = ("id", "published_at")
+
+
 def insert_columns(optional_columns: list[str]) -> list[str]:
     columns = [
         "id",
@@ -350,7 +355,9 @@ def render_sql(
     columns = insert_columns(optional_columns)
     column_block = ",\n    ".join(columns)
     update_block = ",\n        ".join(
-        f"{column} = excluded.{column}" for column in columns if column != "id"
+        f"{column} = excluded.{column}"
+        for column in columns
+        if column not in INSERT_ONLY_COLUMNS
     )
     content_values = ",\n    ".join(
         render_content_value(row, optional_columns) for row in rows
